@@ -32,6 +32,18 @@ int main(){
     Capsule c2(0.705, p6, p7);
     //Testing Capsule to Capsule intersection
     bool intersect = Capsule::intersect(c1,c2);
+
+    //opengl testing  capsule
+    Point a(-11.24, 4.0, -21.74);
+    Point b(-10.756, 4.0, -18.26);
+    Segment s3(a,b);
+    Capsule cap3(1.42, a, b);
+    Point c(-11.24, 4.0, -16.267);
+    Point d(-10.756, 4.0, -19.73);
+    Segment s4(c,d);
+    Capsule cap4(1.42, c, d);
+    intersect = Capsule::intersect(cap3,cap4);
+    distance = Segment::dist3D_Segment_to_Segment(s4,s3);
     getchar();
     return 0;
 }

@@ -1,5 +1,6 @@
 #include "Segment.h"
 #include <math.h>
+#include <algorithm>
 // Copyright 2001 softSurfer, 2012 Dan Sunday
 // This code may be freely used, distributed and modified for any purpose
 // providing that this copyright notice is included with it.
@@ -28,6 +29,9 @@ float Segment::dist3D_Segment_to_Segment( Segment S1, Segment S2)
     Vector   u = S1.P1 - S1.P0;
     Vector   v = S2.P1 - S2.P0;
     Vector   w = S1.P0 - S2.P0;
+	Vector	 z = S1.P0 - S2.P1;
+	Vector	 g = S1.P1 - S2.P0;
+	Vector	 h = S1.P1 - S2.P1;
     float    a = dot(u,u);         // always >= 0
     float    b = dot(u,v);
     float    c = dot(v,v);         // always >= 0
@@ -90,5 +94,16 @@ float Segment::dist3D_Segment_to_Segment( Segment S1, Segment S2)
     // get the difference of the two closest points
     Vector   dP = w + (u * sc) - (v* tc);  // =  S1(sc) - S2(tc)
 
-    return norm(dP);   // return the closest distance
+	float distance = norm(dP);
+	float wDistance = norm(w);
+	float zDistance = norm(z);
+	float gDistance = norm(g);
+	float hDistance = norm(h);
+
+	distance = std::min(distance, wDistance);
+	distance = std::min(distance, zDistance);
+	distance = std::min(distance, gDistance);
+	distance = std::min(distance, hDistance);
+
+	return distance;   // return the closest distance
 }
